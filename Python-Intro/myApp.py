@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 # set title
-st.title('Adevrtising-Sales')
+st.title('Advertising-Sales')
 
 # paragraph to explain what is this app about 
 st.markdown('This is first streamlit app. It will be used to explore the Advertising dataset and perform predictions of sales based on simple linear model. It must be noted that <b>linear</b> regression models are not best choice for this problem',True)
@@ -12,9 +12,9 @@ st.info('Use the sidebar controls to change the spending values on TV, Radio, an
 
 
 #Simple function to read the data in the file. Notice that we cached this part 
-@st.cache
+@st.cache_data
 def get_data():
-    df = pd.read_csv('data/Adevrtising.csv')
+    df = pd.read_csv('data/Advertising.csv')
     return df
 
 # get the data into df data frame (pandas)

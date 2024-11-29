@@ -6,14 +6,14 @@ import cv2 # computer vision library
 import pandas as pd
 
 # a function to load the model (SVM)
-@st.cache(allow_output_mutation=True)
+@st.cache_resource()
 def get_model():
     pickle_file = open('svm_model.pkl', 'rb') 
     model = pickle.load(pickle_file)
     return model 
 
 # # read the testing set from a data frame
-@st.cache(allow_output_mutation=True)
+@st.cache_data()
 def read_test_set():
     df = pd.read_csv('Xy_test.csv')
     # split features and labels into two differen dataframes (X, y)
@@ -62,12 +62,13 @@ def prepare_image(uploaded_file):
 # Geneate an image from the set of features in the dataset
 def gen_image(arr):
     two_d = (np.reshape(arr, (image_w, image_h)) * 255).astype(np.uint8)
+    print(two_d)
     img = Image.fromarray(two_d, 'L')
 
     # resize for viewing purpose
     n_w = image_w * 2
     n_h = image_h * 2
-    img = img.resize((n_w,n_h),Image.ANTIALIAS)
+    img = img.resize((n_h,n_w),Image.LANCZOS)
 
     return img
 
@@ -79,7 +80,7 @@ def view_image(image_index = 0):
     image_to_show = features_df.iloc[image_index].to_numpy()
     # this step is needed for viewing the imgage to get values 
     #between 0 and 1 representing colors
-    image_to_show = image_to_show/255.0
+    #image_to_show = image_to_show
     image_to_show = gen_image(image_to_show)
     # Get the label of the corresponding image
     label= faces[labels[image_index]]

@@ -25,16 +25,16 @@ st.markdown(title,True)
 st.markdown(intro_msg,True)
 
 # a function to load the Random Forest Model
-@st.cache(allow_output_mutation=True)
+@st.cache_resource()
 def get_model():
     pickle_file = open('rf_model.pkl', 'rb') 
     model = pickle.load(pickle_file)
     return model 
 
 # # read the testing set from a data frame
-@st.cache(allow_output_mutation=True)
+@st.cache_data()
 def load_data():
-    df = pd.read_csv('../data/Symbols.csv')
+    df = pd.read_csv('../Symbols.csv')
     # split features and labels into two differen dataframes (X, y)
     features = df.loc[:, df.columns != 'label']
     labels = df['label'].to_numpy()
@@ -98,7 +98,7 @@ def gen_image(arr):
     # resize for viewing purpose
     n_w = image_w * 2
     n_h = image_h * 2
-    img = img.resize((n_w,n_h),Image.ANTIALIAS)
+    img = img.resize((n_w,n_h),Image.LANCZOS)
 
     return img
 
